@@ -1,1 +1,1 @@
-export const APP_NAME = 'crypto-portfolio-tracker-arweave';
+export const APP_NAME = 'photoalbum-arweave';

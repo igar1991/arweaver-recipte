@@ -1,68 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import { getAllPortfolioTransactions } from '../api';
-import { Table, Button } from 'antd';
+import React, {useState, useEffect} from 'react';
+import {getAllPortfolioTransactions} from '../api';
+import {Table, Button, message} from 'antd';
 import moment from 'moment';
+import {uploadPhoto} from '../api';
+
 
 import AddTransaction from './AddTransaction';
 
-const Dashboard = ({ walletAddress, wallet }) => {
-  const [portfolioTransactions, setPortfolioTransactions] = useState([]);
-  const [addTransactionVisible, setAddTransactionVisible] = useState(false);
+const Dashboard = ({walletAddress, wallet}) => {
+    const [portfolioTransactions, setPortfolioTransactions] = useState([]);
+    const [addTransactionVisible, setAddTransactionVisible] = useState(false);
 
-  useEffect(() => {
-    getAllPortfolioTransactions(walletAddress).then(setPortfolioTransactions);
-  }, [walletAddress]);
+    let uploadFileRef = React.createRef();
 
-  return (
-    <div>
-      <Button
-        onClick={() => setAddTransactionVisible(true)}
-        type="primary"
-        size="large"
-      >
-        Add A Transaction
-      </Button>
+    const onUpload = info => {
+        const input = uploadFileRef.current;
+        input.value = null;
+        input.onchange = () => {
+            console.log(uploadFileRef.current.files);
 
-      {portfolioTransactions.length ? (
-        <Table
-          dataSource={portfolioTransactions}
-          columns={[
-            { title: 'CoinName', dataIndex: 'CoinName', key: 'CoinName' },
-            { title: 'Amount', dataIndex: 'Amount', key: 'Amount' },
-            {
-              title: 'TransactionType',
-              dataIndex: 'TransactionType',
-              key: 'TransactionType'
-            },
-            {
-              title: 'Time',
-              dataIndex: 'Time',
-              key: 'Time',
-              render: unixTime =>
-                moment(unixTime * 1000).format('MMMM Do YYYY, h:mm:ss a')
-            }
-          ]}
-          rowKey={JSON.stringify}
-        />
-      ) : (
+            const filereader = new FileReader();
+            filereader.addEventListener('loadend', async event => {
+                try {
+                    console.log(event.target.result);
+                    const result = await uploadPhoto(event.target.result, wallet);
+                    console.log(result);
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+
+            filereader.readAsDataURL(uploadFileRef.current.files[0]);
+
+        };
+
+        input.accept = "image/*";
+        input.click();
+
+    };
+
+    useEffect(() => {
+        getAllPortfolioTransactions(walletAddress).then(setPortfolioTransactions);
+    }, [walletAddress]);
+
+    return (
         <div>
-          <p>Your transaction data will appear here.</p>
-          <p>
-            If you have added a transaction recently, please wait some time for
-            it to reflect on the blockchain.
-          </p>
-        </div>
-      )}
+            <Button
+                onClick={() => onUpload()}
+                type="file"
+                size="large"
+            >
+                Upload photo
+            </Button>
 
-      <AddTransaction
-        visible={addTransactionVisible}
-        closeModal={() => {
-          setAddTransactionVisible(false);
-        }}
-        wallet={wallet}
-      />
-    </div>
-  );
+            <input type="file" ref={uploadFileRef} style={{display: 'none'}}/>
+
+            {portfolioTransactions.length ? (
+                <p>
+                    {portfolioTransactions.map((item, index) => {
+                        console.log(item, index);
+                        return <img key={index} src={item} alt="User" style={{width: '300px'}}/>
+                    })}
+                </p>
+
+
+            ) : (
+                <div>
+                    <p>Your photos will appear here.</p>
+                    <p>
+                        If you have added a photo recently, please wait some time for
+                        it to reflect on the blockchain.
+                    </p>
+                </div>
+            )}
+
+            <AddTransaction
+                visible={addTransactionVisible}
+                closeModal={() => {
+                    setAddTransactionVisible(false);
+                }}
+                wallet={wallet}
+            />
+        </div>
+    );
 };
 
 export default Dashboard;
