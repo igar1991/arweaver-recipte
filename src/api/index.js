@@ -73,4 +73,6 @@ export const uploadPhoto = async (photo, wallet) => {
 
     await arweave.transactions.sign(transaction, wallet);
     await arweave.transactions.post(transaction);
+
+    return true;
 };
