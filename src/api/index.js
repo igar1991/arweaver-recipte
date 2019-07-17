@@ -63,11 +63,12 @@ export const addTransaction = async (transactionData, wallet) => {
 };
 
 
-export const uploadPhoto = async (photo, wallet) => {
-    const transaction = await arweave.createTransaction(
-        {data: photo},
-        wallet
-    );
+export const uploadPhoto = async (photo,YOURTEXT,YOURTEXT1, YOURTEXT2, wallet) => {
+   const transaction = await arweave.createTransaction(
+{data: JSON.stringify({photo: photo, text: YOURTEXT, text1: YOURTEXT1, text2: YOURTEXT2})},
+wallet
+);
+  
 
     transaction.addTag('App-Name', getAppName());
 

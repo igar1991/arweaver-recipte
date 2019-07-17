@@ -1,7 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import useWallet from './hooks/useWallet';
-
 import {Layout, Typography} from 'antd';
 import KeyUpload from './components/KeyUpload';
 import Dashboard from './components/Dashboard';
@@ -17,9 +16,9 @@ const App = () => {
 
     return (
         <Layout className="layout">
-            <Header>
-                <Title style={{color: '#fff', padding: '15px'}} level={3}>
-                    Arweave Photoalbum
+            <Header style={{backgroundColor: '#0055FF'}}>
+                <Title style={{color: 'white', padding: '15px'}} level={3}>
+                    Arweave Book of Recipes
                 </Title>
             </Header>
             <Content style={{padding: '25px 50px'}}>
