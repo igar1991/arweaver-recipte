@@ -1,8 +1,8 @@
-# photoalbum-arweave
+# Arweave Book of Recipes
 
-Simple photoalbum for Arweave. User can upload photos with wallet.
+Book of recipes. You can save your favorite recipes with photos and save to Arweave.
 
-Deployed at: https://arweave.net/bnb-GepCJlJJmbpIgRJhaMejDzztHOb511YFbeIQ4Z4
+Deployed at: https://arweave.net/CodcpWRTIrLj1ekz5IweRosQ4c8QibPRPsDy9YT_xfA
 
 
 
