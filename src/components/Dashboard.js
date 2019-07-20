@@ -72,6 +72,8 @@ const Dashboard = ({walletAddress, wallet}) => {
     useEffect(() => {
         getAllPortfolioTransactions(walletAddress).then(setPortfolioTransactions);
     }, [walletAddress]);
+    const objparce = portfolioTransactions.filter(item => item[0]+item[2]+item[3]+item[4]+item[5]==="{ph1l");
+
 
     return (
         <Row>
@@ -124,16 +126,18 @@ const Dashboard = ({walletAddress, wallet}) => {
                     <p>recipe will not be displayed until it has been mined into a block.</p>
                 </div> : <span/>}
 
-            {portfolioTransactions.length ?
+            {objparce.length ?
                 <div>
-                  {portfolioTransactions.map((item, index) => {
+                    {objparce.map((item, index) => {
+
+
                     const obj = JSON.parse(item)
    
-                        console.log(obj);
+                        console.log(item);
                         return (
                             <Col span = {12} key={index} className="card">
                             <h2>{obj.text}</h2>
-                            <img  src={obj.photo} alt="User" style={{width: '100%'}}/>
+                            <img  src={obj.ph1loto} alt="User" style={{width: '100%'}}/>
                             <div className="container">
                             <h4>{obj.text1}</h4>
                             <p>{obj.text2}</p>
